@@ -1,0 +1,14 @@
+{
+  "author": "{%= author_name %}",
+  "build": "{%= build %}",
+  "context": "server",
+  "date": "{%= grunt.template.today('yyyy/mm/dd') %}",
+  "description": "{%= description %}",
+  "display_name": "{%= title %}",
+  "enabled": true,
+  "forum": null,
+  "identifier": "{%= identifier %}",
+  "signature": "not yet implemented",
+  "version": "{%= version %}"
+}
+
