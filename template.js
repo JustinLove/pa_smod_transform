@@ -15,6 +15,8 @@ exports.after = "For further modding info, check out the forums." +
 // Any existing file or directory matching this wildcard will cause a warning.
 exports.warnOn = '*';
 
+
+
 // The actual init template.
 exports.template = function(grunt, init, done) {
   init.process({type: 'grunt'}, [
@@ -30,12 +32,12 @@ exports.template = function(grunt, init, done) {
     init.prompt('forum'),
     init.prompt('licenses', 'Apache-2.0'),
     init.prompt('build'),
-    init.prompt('pa_root', process.env.HOME + '/Library/Application Support/Uber Entertainment/Planetary Annihilation/data/streams/stable/PA.app/Contents/Resources/'),
+    init.prompt('resource_root', resourcePath())
   ], function(err, props) {
     // Files to copy (and process).
     var build = 'ui/main/shared/js/build.js'
     var files = init.filesToCopy(props);
-    files[build] = props.pa_root + build
+    files[build] = props.resource_root + build
 
     // Add properly-named license files.
     init.addLicenseFiles(files, props.licenses);
@@ -54,18 +56,57 @@ exports.template = function(grunt, init, done) {
 
 };
 
+var localPath = function() {
+  // borrowed from PAMM-Atom
+  if(process.platform === 'win32') {
+    return process.env.LOCALAPPDATA.replace(/\\/g,"/");
+  }
+  else if(process.platform === 'linux') {
+    return process.env.HOME + "/.local"
+  }
+  else if(process.platform === 'darwin') {
+    return process.env.HOME + "/Library/Application Support"
+  }
+  else {
+    // the user can change it anyway
+    return process.env.HOME + "/.local"
+  }
+}
+
+var paPath = function() {
+  return localPath() + '/Uber Entertainment/Planetary Annihilation'
+}
+
+var resourcePath = function() {
+  if(process.platform === 'win32') {
+    return paPath() + '/data/streams/stable/media/' // ????
+  }
+  else if(process.platform === 'linux') {
+    return paPath() + '/stable/media/' // ????
+  }
+  else if(process.platform === 'darwin') {
+    return paPath() + '/data/streams/stable/PA.app/Contents/Resources/'
+  }
+  else {
+    // the user can change it anyway
+    return paPath() + '/data/streams/stable/media/'
+  }
+}
+
 var unitFiles = function(grunt, props) {
-  var specs = grunt.file.expand({cwd: props.pa_root}, [
+  var specs = grunt.file.expand({cwd: props.resource_root}, [
     'pa/ammo/**/*.json',
     'pa/tools/**/*.json',
     'pa/units/**/*.json'
   ])
   specs.forEach(function(relpath) {
-    var spec = grunt.file.readJSON(props.pa_root + relpath)
+    var spec = grunt.file.readJSON(props.resource_root + relpath)
     processSpec(spec)
     grunt.file.write(relpath, JSON.stringify(spec, null, 2))
   })
 }
+
+
 
 var processSpec = function(spec) {
   //if (spec.max_health) {
