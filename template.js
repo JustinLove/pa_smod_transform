@@ -33,9 +33,9 @@ exports.template = function(grunt, init, done) {
     init.prompt('pa_root', process.env.HOME + '/Library/Application Support/Uber Entertainment/Planetary Annihilation/data/streams/stable/PA.app/Contents/Resources/'),
   ], function(err, props) {
     // Files to copy (and process).
+    var build = 'ui/main/shared/js/build.js'
     var files = init.filesToCopy(props);
-
-    console.log(unitFiles(grunt, props))
+    files[build] = props.pa_root + build
 
     // Add properly-named license files.
     init.addLicenseFiles(files, props.licenses);
@@ -46,6 +46,8 @@ exports.template = function(grunt, init, done) {
     // Generate package.json file.
     //init.writePackageJSON('package.json', props);
 
+    unitFiles(grunt, props)
+
     // All done!
     done();
   });
@@ -53,12 +55,12 @@ exports.template = function(grunt, init, done) {
 };
 
 var unitFiles = function(grunt, props) {
-  var files = grunt.file.expand({cwd: props.pa_root}, [
+  var specs = grunt.file.expand({cwd: props.pa_root}, [
     'pa/ammo/**/*.json',
     'pa/tools/**/*.json',
     'pa/units/**/*.json'
   ])
-  files.forEach(function(relpath) {
+  specs.forEach(function(relpath) {
     var spec = grunt.file.readJSON(props.pa_root + relpath)
     processSpec(spec)
     grunt.file.write(relpath, JSON.stringify(spec, null, 2))
@@ -66,7 +68,7 @@ var unitFiles = function(grunt, props) {
 }
 
 var processSpec = function(spec) {
-  if (spec.max_health) {
-    spec.max_health *= 4
-  }
+  //if (spec.max_health) {
+    //spec.max_health *= 2
+  //}
 }
