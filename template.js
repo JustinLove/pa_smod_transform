@@ -25,14 +25,20 @@ exports.template = function(grunt, init, done) {
     init.prompt('title'),
     init.prompt('description', 'The best PA mod ever.'),
     init.prompt('author_name'),
+    init.prompt('author_identifier', function(value, props, done) {
+      done(null, 'pa.' + props.author_name + '.')
+    }),
     init.prompt('identifier', function(value, props, done) {
-      done(null, 'pa.' + props.author_name + '.' + props.name)
+      done(null, props.author_identifier + props.name)
     }),
     init.prompt('version'),
     init.prompt('forum'),
     init.prompt('licenses', 'Apache-2.0'),
     init.prompt('build'),
-    init.prompt('resource_root', resourcePath())
+    init.prompt('stream', 'stable'),
+    init.prompt('resource_path', function(value, props, done) {
+      done(null, resource_path(props.stream))
+    }),
   ], function(err, props) {
     // Files to copy (and process).
     var build = 'ui/main/shared/js/build.js'
@@ -77,19 +83,19 @@ var paPath = function() {
   return localPath() + '/Uber Entertainment/Planetary Annihilation'
 }
 
-var resourcePath = function() {
+var resourcePath = function(stream) {
   if(process.platform === 'win32') {
-    return paPath() + '/data/streams/stable/media/' // ????
+    return paPath() + '/data/streams/' + stream + '/media/' // ????
   }
   else if(process.platform === 'linux') {
-    return paPath() + '/stable/media/' // ????
+    return paPath() + '/' + stream + '/media/' // ????
   }
   else if(process.platform === 'darwin') {
-    return paPath() + '/data/streams/stable/PA.app/Contents/Resources/'
+    return paPath() + '/data/streams/' + stream +'/PA.app/Contents/Resources/'
   }
   else {
     // the user can change it anyway
-    return paPath() + '/data/streams/stable/media/'
+    return paPath() + '/data/streams/' + stream + '/media/'
   }
 }
 
