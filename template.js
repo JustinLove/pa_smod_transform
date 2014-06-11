@@ -36,14 +36,19 @@ exports.template = function(grunt, init, done) {
     init.prompt('licenses', 'Apache-2.0'),
     init.prompt('build'),
     init.prompt('stream', 'stable'),
-    init.prompt('resource_path', function(value, props, done) {
-      done(null, resource_path(props.stream))
+    init.prompt('resource_root', function(value, props, done) {
+      done(null, resourcePath(props.stream))
     }),
+    init.prompt('filename_regexp'),
+    init.prompt('include_build', 'Y'),
   ], function(err, props) {
     // Files to copy (and process).
-    var build = 'ui/main/shared/js/build.js'
     var files = init.filesToCopy(props);
-    files[build] = props.resource_root + build
+
+    if (props.include_build == 'Y') {
+      var build = 'ui/main/shared/js/build.js'
+      files[build] = props.resource_root + build
+    }
 
     // Add properly-named license files.
     init.addLicenseFiles(files, props.licenses);
@@ -100,15 +105,18 @@ var resourcePath = function(stream) {
 }
 
 var unitFiles = function(grunt, props) {
+  var filter = new RegExp(props.filename_regexp, '')
   var specs = grunt.file.expand({cwd: props.resource_root}, [
     'pa/ammo/**/*.json',
     'pa/tools/**/*.json',
     'pa/units/**/*.json'
   ])
   specs.forEach(function(relpath) {
-    var spec = grunt.file.readJSON(props.resource_root + relpath)
-    processSpec(spec)
-    grunt.file.write(relpath, JSON.stringify(spec, null, 2))
+    if (filter.test(relpath)) {
+      var spec = grunt.file.readJSON(props.resource_root + relpath)
+      processSpec(spec)
+      grunt.file.write(relpath, JSON.stringify(spec, null, 2))
+    }
   })
 }
 
