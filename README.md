@@ -1,6 +1,6 @@
-# PA Server Mod Balance Basic
+# PA Server Mod Balance Grunt
 
-A [grunt-init](http://gruntjs.com/project-scaffolding) template for a basic Planitary Annihilation balance server mod.
+A [grunt-init](http://gruntjs.com/project-scaffolding) template for Planitary Annihilation balance server mod, set up to run grunt tasks.
 
 For further modding info, check out the forums.
 
