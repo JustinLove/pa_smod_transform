@@ -19,6 +19,15 @@ module.exports = function(grunt) {
         ],
       },
     },
+    jsonlint: {
+      all: {
+        src: [
+          'pa/ammo/**/*.json',
+          'pa/tools/**/*.json',
+          'pa/units/**/*.json'
+        ]
+      },
+    },
     proc: {
       health: {
         filename_regexp: null,
@@ -32,6 +41,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-jsonlint');
 
   grunt.registerTask('copy:unitFiles', 'copy files into the mod from PA', function() {
     var done = this.async()
