@@ -28,6 +28,17 @@ module.exports = function(grunt) {
         ]
       },
     },
+    json_schema: {
+      all: {
+        files: {
+          'lib/schema.json': [
+            'pa/ammo/**/*.json',
+            'pa/tools/**/*.json',
+            'pa/units/**/*.json'
+          ]
+        },
+      },
+    },
     proc: {
       health: {
         filename_regexp: null,
@@ -42,6 +53,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-jsonlint');
+  grunt.loadNpmTasks('grunt-json-schema');
 
   grunt.registerTask('copy:unitFiles', 'copy files into the mod from PA', function() {
     var done = this.async()
@@ -76,7 +88,7 @@ module.exports = function(grunt) {
   })
 
   // Default task(s).
-  grunt.registerTask('default', []);
+  grunt.registerTask('default', ['json_schema', 'jsonlint']);
 
 };
 
