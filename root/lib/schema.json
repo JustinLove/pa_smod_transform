@@ -3,7 +3,6 @@
 	"id": "#root",
 	"definitions": {
 		"#physics": {
-			//TODO Physics optional attributes, default values etc.
 			"id": "#physics",
 			"properties": {
 				"type": {
@@ -39,27 +38,22 @@
 			}
 		},
 		"#physics_type": {
-			//TODO Physics type
 			"id": "#physics_type",
 			"type": "string"
 		},
 		"#ammo_type": {
-			//TODO Ammo type
 			"id": "#ammo_type",
 			"type": "string"
 		},
 		"#flight_type": {
-			//TODO Flight type
 			"id": "#flight_type",
 			"type": "string"
 		},
 		"#flight_layer": {
-			//TODO Flight layer
 			"id": "#flight_layer",
 			"type": "string"
 		},
 		"#layer": {
-			//TODO Generic layer
 			"id": "#layer",
 			"type": "string"
 		},
@@ -105,7 +99,6 @@
 					"type": "integer",
 					"required": false
 				},
-				//TODO Animations
 				"animations": {
 				},
 				"animtree": {
@@ -293,7 +286,6 @@
 		"#navigation": {
 			"id": "#navigation",
 			"type": "object"
-			//TODO Nav object
 		},
 		"#economy_balance": {
 			"id": "#economy_balance",
@@ -476,7 +468,6 @@
 			"$ref": "#ammo"
 		},
 		{
-			//TODO Tools...
 			"$ref": "#tool"
 		}
 	]
