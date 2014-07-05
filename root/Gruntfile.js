@@ -2,6 +2,7 @@ var spec = require('./lib/spec')
 var prompt = require('prompt')
 prompt.start()
 
+var modPath = '../../server_mods/{%= identifier %}/'
 var stream = '{%= stream %}'
 var media = require('./lib/path').media(stream)
 var build = 'ui/main/shared/js/build.js'
@@ -15,6 +16,20 @@ module.exports = function(grunt) {
           {
             src: media + build,
             dest: build,
+          },
+        ],
+      },
+      mod: {
+        files: [
+          {
+            src: [
+              'modinfo.json',
+              'LICENSE.txt',
+              'README.md',
+              'CHANGELOG.md',
+              'ui/**',
+              'pa/**'],
+            dest: modPath,
           },
         ],
       },
