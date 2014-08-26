@@ -97,11 +97,6 @@ module.exports = function(grunt) {
     }
   })
 
-  grunt.registerTask('patch_67998', 'fixup specs for PTE changes', function() {
-    var patch = require('./lib/patch_67998')
-    patch.fixSpecs(grunt)
-  })
-
   // Default task(s).
   grunt.registerTask('default', ['json_schema', 'jsonlint']);
 
