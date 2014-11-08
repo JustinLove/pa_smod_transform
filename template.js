@@ -30,8 +30,11 @@ exports.template = function(grunt, init, done) {
     }),
     init.prompt('version'),
     init.prompt('licenses', 'Apache-2.0'),
-    init.prompt('build'),
     init.prompt('stream', 'stable'),
+    init.prompt('build', function(value, props, done) {
+      var versionPath = require('./root/lib/path').media(props.stream) + '../version.txt'
+      done(null, grunt.file.read(versionPath).trim())
+    }),
   ], function(err, props) {
     // Files to copy (and process).
     var files = init.filesToCopy(props);
