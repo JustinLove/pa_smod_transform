@@ -7,12 +7,7 @@ exports.description = 'Create a minimal mod for Planitary Annihilation';
 //exports.notes = ''
 
 // Template-specific notes to be displayed after question prompts.
-exports.after = "run `npm install` to set up Grunt." +
-  "\n\n" +
-  "For further modding info, check out the forums." +
-  "\n\n" +
-  "https://forums.uberent.com/threads/pa-modding-reference-guides-applications-tools.48136/" +
-  "https://forums.uberent.com/threads/guide-getting-your-mod-on-pamm.55189/";
+exports.after = "run `npm install` to set up Grunt."
 
 // Any existing file or directory matching this wildcard will cause a warning.
 exports.warnOn = '*';
@@ -34,7 +29,6 @@ exports.template = function(grunt, init, done) {
       done(null, props.author_identifier + props.name)
     }),
     init.prompt('version'),
-    init.prompt('forum'),
     init.prompt('licenses', 'Apache-2.0'),
     init.prompt('build'),
     init.prompt('stream', 'stable'),
